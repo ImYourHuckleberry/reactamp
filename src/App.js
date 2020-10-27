@@ -87,6 +87,8 @@ function App() {
     <div key={keyboard.id || keyboard.name}>
       <h2>{keyboard.name}</h2>
       <p>{keyboard.description}</p>
+      <p>{keyboard.cost}</p>
+      <p>{keyboard.user}</p>
       <button onClick={() => deleteKeyboard(keyboard)}>Delete keyboard</button>
       {
         keyboard.image && <img src={keyboard.image} style={{width: 400}} />
