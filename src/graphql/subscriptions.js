@@ -37,3 +37,42 @@ export const onDeleteTodo = /* GraphQL */ `
     }
   }
 `;
+export const onCreateKeyboard = /* GraphQL */ `
+  subscription OnCreateKeyboard {
+    onCreateKeyboard {
+      id
+      name
+      description
+      cost
+      image
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateKeyboard = /* GraphQL */ `
+  subscription OnUpdateKeyboard {
+    onUpdateKeyboard {
+      id
+      name
+      description
+      cost
+      image
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteKeyboard = /* GraphQL */ `
+  subscription OnDeleteKeyboard {
+    onDeleteKeyboard {
+      id
+      name
+      description
+      cost
+      image
+      createdAt
+      updatedAt
+    }
+  }
+`;

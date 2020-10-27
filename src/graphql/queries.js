@@ -32,3 +32,36 @@ export const listTodos = /* GraphQL */ `
     }
   }
 `;
+export const getKeyboard = /* GraphQL */ `
+  query GetKeyboard($id: ID!) {
+    getKeyboard(id: $id) {
+      id
+      name
+      description
+      cost
+      image
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listKeyboards = /* GraphQL */ `
+  query ListKeyboards(
+    $filter: ModelKeyboardFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listKeyboards(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        description
+        cost
+        image
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;

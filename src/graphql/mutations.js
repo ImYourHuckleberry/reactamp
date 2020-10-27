@@ -46,3 +46,51 @@ export const deleteTodo = /* GraphQL */ `
     }
   }
 `;
+export const createKeyboard = /* GraphQL */ `
+  mutation CreateKeyboard(
+    $input: CreateKeyboardInput!
+    $condition: ModelKeyboardConditionInput
+  ) {
+    createKeyboard(input: $input, condition: $condition) {
+      id
+      name
+      description
+      cost
+      image
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateKeyboard = /* GraphQL */ `
+  mutation UpdateKeyboard(
+    $input: UpdateKeyboardInput!
+    $condition: ModelKeyboardConditionInput
+  ) {
+    updateKeyboard(input: $input, condition: $condition) {
+      id
+      name
+      description
+      cost
+      image
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteKeyboard = /* GraphQL */ `
+  mutation DeleteKeyboard(
+    $input: DeleteKeyboardInput!
+    $condition: ModelKeyboardConditionInput
+  ) {
+    deleteKeyboard(input: $input, condition: $condition) {
+      id
+      name
+      description
+      cost
+      image
+      createdAt
+      updatedAt
+    }
+  }
+`;

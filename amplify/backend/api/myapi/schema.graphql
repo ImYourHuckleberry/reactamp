@@ -4,3 +4,12 @@ type Todo @model {
   description: String
   image: String
 }
+
+type Keyboard @model {
+id:ID!
+name: String
+description: String
+cost: Int
+image: String
+user: String
+}
