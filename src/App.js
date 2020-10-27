@@ -31,6 +31,11 @@ function App() {
   async function createKeyboard() {
     if (!formData.name || !formData.description) return;
     await API.graphql({ query: createKeyboardMutation, variables: { input: formData } });
+    let user = await Auth.currentAuthenticatedUser();
+
+    const { attributes } = user;
+
+    formData.user = attributes.username;
     if (formData.image) {
       const image = await Storage.get(formData.image);
       formData.image = image;
@@ -65,6 +70,11 @@ function App() {
         onChange={e => setFormData({ ...formData, 'description': e.target.value})}
         placeholder="Keyboard description"
         value={formData.description}
+      />
+      <input
+        onChange={e => setFormData({ ...formData, 'cost': e.target.value})}
+        placeholder="Keyboard cost"
+        value={formData.cost}
       />
       <input
   type="file"
