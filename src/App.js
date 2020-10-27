@@ -1,26 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import Amplify, { API, graphqlOperation } from 'aws-amplify'
-import { createTodo } from './graphql/mutations'
-import { listTodos } from './graphql/queries'
-import { withAuthenticator } from '@aws-amplify/ui-react'
+import React, { useState, useEffect } from 'react';
+import './App.css';
 import { API, Storage } from 'aws-amplify';
+import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+import { listTodos } from './graphql/queries';
+import { createTodo as createTodoMutation, deleteTodo as deleteTodoMutation } from './graphql/mutations';
 
-import awsExports from "./aws-exports";
-Amplify.configure(awsExports);
+const initialFormState = { name: '', description: '' }
 
-const initialState = { name: '', description: '' }
-
-const App = () => {
-  const [formState, setFormState] = useState(initialState)
-  const [todos, setTodos] = useState([])
+function App() {
+  const [todos, setTodos] = useState([]);
+  const [formData, setFormData] = useState(initialFormState);
 
   useEffect(() => {
-    fetchTodos()
-  }, [])
-
-  function setInput(key, value) {
-    setFormState({ ...formState, [key]: value })
-  }
+    fetchTodos();
+  }, []);
 
   async function fetchTodos() {
     const apiData = await API.graphql({ query: listTodos });
@@ -46,46 +39,39 @@ const App = () => {
     setFormData(initialFormState);
   }
 
-  async function addTodo() {
-    try {
-      if (!formState.name || !formState.description) return
-      const todo = { ...formState }
-      setTodos([...todos, todo])
-      setFormState(initialState)
-      await API.graphql(graphqlOperation(createTodo, {input: todo}))
-    } catch (err) {
-      console.log('error creating todo:', err)
-    }
+  async function deleteTodo({ id }) {
+    const newTodosArray = todos.filter(todo => todo.id !== id);
+    setTodos(newTodosArray);
+    await API.graphql({ query: deleteTodoMutation, variables: { input: { id } }});
   }
 
   async function onChange(e) {
-  if (!e.target.files[0]) return
-  const file = e.target.files[0];
-  setFormData({ ...formData, image: file.name });
-  await Storage.put(file.name, file);
-  fetchTodos();
-}
+    if (!e.target.files[0]) return
+    const file = e.target.files[0];
+    setFormData({ ...formData, image: file.name });
+    await Storage.put(file.name, file);
+    fetchTodos();
+  }
 
   return (
-    <div style={styles.container}>
-      <h2>Amplify Todos</h2>
+    <div className="App">
+      <h1>My Todos App</h1>
       <input
-        onChange={event => setInput('name', event.target.value)}
-        style={styles.input}
-        value={formState.name}
-        placeholder="Name"
+        onChange={e => setFormData({ ...formData, 'name': e.target.value})}
+        placeholder="Todo name"
+        value={formData.name}
       />
       <input
-        onChange={event => setInput('description', event.target.value)}
-        style={styles.input}
-        value={formState.description}
-        placeholder="Description"
+        onChange={e => setFormData({ ...formData, 'description': e.target.value})}
+        placeholder="Todo description"
+        value={formData.description}
       />
       <input
   type="file"
   onChange={onChange}
 />
-      <button style={styles.button} onClick={addTodo}>Create Todo</button>
+      <button onClick={createTodo}>Create Todo</button>
+      <div style={{marginBottom: 30}}>
       {
   todos.map(todo => (
     <div key={todo.id || todo.name}>
@@ -98,17 +84,10 @@ const App = () => {
     </div>
   ))
 }
+      </div>
+      <AmplifySignOut />
     </div>
-  )
+  );
 }
 
-const styles = {
-  container: { width: 400, margin: '0 auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 20 },
-  todo: {  marginBottom: 15 },
-  input: { border: 'none', backgroundColor: '#ddd', marginBottom: 10, padding: 8, fontSize: 18 },
-  todoName: { fontSize: 20, fontWeight: 'bold' },
-  todoDescription: { marginBottom: 0 },
-  button: { backgroundColor: 'black', color: 'white', outline: 'none', fontSize: 18, padding: '12px 0px' }
-}
-
-export default withAuthenticator(App)
+export default withAuthenticator(App);
