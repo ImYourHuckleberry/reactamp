@@ -15,6 +15,7 @@ import {
   Switch,
   Route,
   Link,
+  withRouter,
   Redirect
 } from "react-router-dom";
 import { KeyboardSharp } from '@material-ui/icons';
@@ -84,6 +85,7 @@ function App() {
     const newKeyboardsArray = keyboards.filter(keyboard => keyboard.id !== id);
     setKeyboards(newKeyboardsArray);
     await API.graphql({ query: deleteKeyboardMutation, variables: { input: { id } }});
+    fetchKeyboards()
   }
 
   async function onChange(e) {
@@ -123,7 +125,7 @@ function App() {
           <Switch>
             
             <Route exact path="/profile">
-              <Profile myBoards={myBoards}/>
+              <Profile myBoards={myBoards} deleteKeyboard={deleteKeyboard}/>
             </Route>
             <Route exact path="/buy" >
             <ListItems fetchKeyboards={fetchKeyboards} keyboards={keyboards} setKeyboards={setKeyboards} listKeyboards={listKeyboards}/>     

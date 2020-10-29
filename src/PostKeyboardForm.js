@@ -32,7 +32,7 @@ req
     Upload a Picture
   </Button>
 </label> 
-<Button variant="contained" color="primary" onClick={createKeyboard}>Upload Keyboard</Button>
+<Button variant="contained" color="primary" ><a onClick={createKeyboard} href="/profile">Upload Keyboard</a></Button>
 </div>
 )
 }  
