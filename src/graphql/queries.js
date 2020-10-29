@@ -8,6 +8,7 @@ export const getTodo = /* GraphQL */ `
       name
       description
       image
+      priority
       createdAt
       updatedAt
     }
@@ -25,6 +26,7 @@ export const listTodos = /* GraphQL */ `
         name
         description
         image
+        priority
         createdAt
         updatedAt
       }
@@ -40,6 +42,7 @@ export const getKeyboard = /* GraphQL */ `
       description
       cost
       image
+      user
       createdAt
       updatedAt
     }
@@ -58,8 +61,24 @@ export const listKeyboards = /* GraphQL */ `
         description
         cost
         image
+        user
         createdAt
         updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+
+export const listKeyboardNames = /* GraphQL */ `
+  query ListKeyboardNames(
+    $filter: ModelKeyboardFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listKeyboards(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        name
       }
       nextToken
     }

@@ -3,6 +3,7 @@ type Todo @model {
   name: String!
   description: String
   image: String
+  priority: String
 }
 
 type Keyboard @model {

@@ -2,20 +2,40 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { API, Storage, Auth } from 'aws-amplify';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
-import { listKeyboards } from './graphql/queries';
+import { listKeyboards,listKeyboardNames } from './graphql/queries';
 import { createKeyboard as createKeyboardMutation, deleteKeyboard as deleteKeyboardMutation } from './graphql/mutations';
-
-const initialFormState = { name: '', description: '' }
+import {CustomAppBar} from './AppBar'
+import { useStyles} from './styles'
+import { fade, makeStyles } from '@material-ui/core/styles';
+import {PostKeyboardForm} from './PostKeyboardForm'
+import {ListItems} from './ListItems'
+import {Profile} from "./Profile"
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect
+} from "react-router-dom";
+import { KeyboardSharp } from '@material-ui/icons';
 
 function App() {
+  const initialFormState = { name: '', description: '' }
   const [keyboards, setKeyboards] = useState([]);
+  const [keyboardNames, setKeyboardNames] = useState([]);
   const [formData, setFormData] = useState(initialFormState);
+  const [myBoards, setMyBoards]= useState([]);
+  const [searchTerm, setSearchTerm]= useState([]);
+
+
 
   useEffect(() => {
     fetchKeyboards();
+    fetchKeyboardNames();
   }, []);
 
   async function fetchKeyboards() {
+    const user = await Auth.currentAuthenticatedUser()
     const apiData = await API.graphql({ query: listKeyboards });
     const keyboardsFromAPI = apiData.data.listKeyboards.items;
     await Promise.all(keyboardsFromAPI.map(async keyboard => {
@@ -25,17 +45,33 @@ function App() {
       }
       return keyboard;
     }))
-    setKeyboards(apiData.data.listKeyboards.items);
+    let keyboardData = apiData.data.listKeyboards.items
+    console.log(searchTerm)
+    if(searchTerm.length)(
+      keyboardData=dynamicFilter(keyboardData)
+    )
+    setMyBoards(apiData.data.listKeyboards.items.filter(keyboard=>keyboard.user===user.username))
+    setKeyboards(keyboardData);
   }
+
+  async function fetchKeyboardNames() {
+      const apiData = await API.graphql({ query: listKeyboardNames });
+      const names = apiData.data.listKeyboards.items;
+      setKeyboardNames(names)
+    }
+
+  
 
   async function createKeyboard() {
     if (!formData.name || !formData.description) return;
-    await API.graphql({ query: createKeyboardMutation, variables: { input: formData } });
+
     let user = await Auth.currentAuthenticatedUser();
+    console.log(user)
 
-    const { attributes } = user;
+    formData.user = user.username;
+    await API.graphql({ query: createKeyboardMutation, variables: { input: formData } });
+    
 
-    formData.user = attributes.username;
     if (formData.image) {
       const image = await Storage.get(formData.image);
       formData.image = image;
@@ -57,48 +93,56 @@ function App() {
     await Storage.put(file.name, file);
     fetchKeyboards();
   }
+ 
+  function dynamicFilter(data){
+    console.log(data)
+    const substringArray = searchTerm.split(/\W+/).filter((term)=>term.length>0)
+    console.log(substringArray)
+    return data.filter((keyboard)=>substringArray.every((substring)=> keyboard.name.toLowerCase().includes(substring.toLowerCase())||keyboard.description.toLowerCase().includes(substring.toLowerCase())))
+    
+  }
+
+  function editSearch(term){
+    console.log("hit")
+    setSearchTerm(term)
+    fetchKeyboards()
+  }
+
+
+  const classes = useStyles();
 
   return (
+  <Router>
     <div className="App">
-      <h1>My Keyboards App</h1>
-      <input
-        onChange={e => setFormData({ ...formData, 'name': e.target.value})}
-        placeholder="Keyboard name"
-        value={formData.name}
-      />
-      <input
-        onChange={e => setFormData({ ...formData, 'description': e.target.value})}
-        placeholder="Keyboard description"
-        value={formData.description}
-      />
-      <input
-        onChange={e => setFormData({ ...formData, 'cost': e.target.value})}
-        placeholder="Keyboard cost"
-        value={formData.cost}
-      />
-      <input
-  type="file"
-  onChange={onChange}
-/>
-      <button onClick={createKeyboard}>Create Keyboard</button>
-      <div style={{marginBottom: 30}}>
-      {
-  keyboards.map(keyboard => (
-    <div key={keyboard.id || keyboard.name}>
-      <h2>{keyboard.name}</h2>
-      <p>{keyboard.description}</p>
-      <p>{keyboard.cost}</p>
-      <p>{keyboard.user}</p>
-      <button onClick={() => deleteKeyboard(keyboard)}>Delete keyboard</button>
-      {
-        keyboard.image && <img src={keyboard.image} style={{width: 400}} />
-      }
-    </div>
-  ))
-}
-      </div>
+      
+      <div className={classes.root}>
+        <CustomAppBar  editSearch={editSearch}/>
+      </div> 
+      <div>
+        
+          <Switch>
+            
+            <Route exact path="/profile">
+              <Profile myBoards={myBoards}/>
+            </Route>
+            <Route exact path="/buy" >
+            <ListItems fetchKeyboards={fetchKeyboards} keyboards={keyboards} setKeyboards={setKeyboards} listKeyboards={listKeyboards}/>     
+            </Route>
+            
+            <Route exact path="/sell" >
+            <PostKeyboardForm setFormData={setFormData} onChange={onChange} createKeyboard={createKeyboard} formData={formData}/>
+            </Route>
+            <Redirect exact from= "/" to="/profile"/>
+            
+            
+          </Switch>
+      
+      </div>    
+        
+      
       <AmplifySignOut />
     </div>
+    </Router>
   );
 }
 

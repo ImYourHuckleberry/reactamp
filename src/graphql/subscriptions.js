@@ -8,6 +8,7 @@ export const onCreateTodo = /* GraphQL */ `
       name
       description
       image
+      priority
       createdAt
       updatedAt
     }
@@ -20,6 +21,7 @@ export const onUpdateTodo = /* GraphQL */ `
       name
       description
       image
+      priority
       createdAt
       updatedAt
     }
@@ -32,6 +34,7 @@ export const onDeleteTodo = /* GraphQL */ `
       name
       description
       image
+      priority
       createdAt
       updatedAt
     }
@@ -45,6 +48,7 @@ export const onCreateKeyboard = /* GraphQL */ `
       description
       cost
       image
+      user
       createdAt
       updatedAt
     }
@@ -58,6 +62,7 @@ export const onUpdateKeyboard = /* GraphQL */ `
       description
       cost
       image
+      user
       createdAt
       updatedAt
     }
@@ -71,6 +76,7 @@ export const onDeleteKeyboard = /* GraphQL */ `
       description
       cost
       image
+      user
       createdAt
       updatedAt
     }

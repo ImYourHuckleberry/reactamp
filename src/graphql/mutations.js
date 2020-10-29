@@ -11,6 +11,7 @@ export const createTodo = /* GraphQL */ `
       name
       description
       image
+      priority
       createdAt
       updatedAt
     }
@@ -26,6 +27,7 @@ export const updateTodo = /* GraphQL */ `
       name
       description
       image
+      priority
       createdAt
       updatedAt
     }
@@ -41,6 +43,7 @@ export const deleteTodo = /* GraphQL */ `
       name
       description
       image
+      priority
       createdAt
       updatedAt
     }
@@ -57,6 +60,7 @@ export const createKeyboard = /* GraphQL */ `
       description
       cost
       image
+      user
       createdAt
       updatedAt
     }
@@ -73,6 +77,7 @@ export const updateKeyboard = /* GraphQL */ `
       description
       cost
       image
+      user
       createdAt
       updatedAt
     }
@@ -89,6 +94,7 @@ export const deleteKeyboard = /* GraphQL */ `
       description
       cost
       image
+      user
       createdAt
       updatedAt
     }
