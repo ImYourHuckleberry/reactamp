@@ -1,4 +1,4 @@
-import { Button, TextField, Card } from '@material-ui/core';
+import { Button, Card } from '@material-ui/core';
 export function Profile(props){
     const {myBoards, deleteKeyboard} = props
     return(<div style={{marginBottom: 30}}>

@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { API, Storage, Auth } from 'aws-amplify';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
-import { listKeyboards,listKeyboardNames } from './graphql/queries';
+import { listKeyboards,listKeyboardNames, getKeyboard } from './graphql/queries';
 import { createKeyboard as createKeyboardMutation, deleteKeyboard as deleteKeyboardMutation } from './graphql/mutations';
-import {CustomAppBar} from './AppBar'
-import { useStyles} from './styles'
-import { fade, makeStyles } from '@material-ui/core/styles';
+import {CustomAppBar} from './AppBar';
+import { useStyles} from './styles';
 import {PostKeyboardForm} from './PostKeyboardForm'
-import {ListItems} from './ListItems'
-import {Profile} from "./Profile"
+import {ListItems} from './ListItems';
+import {ItemDetail} from './ItemDetail';
+import {Profile} from "./Profile";
 import {
   BrowserRouter as Router,
   Switch,
@@ -23,17 +23,22 @@ import { KeyboardSharp } from '@material-ui/icons';
 function App() {
   const initialFormState = { name: '', description: '' }
   const [keyboards, setKeyboards] = useState([]);
+  const [keyboard, setKeyboard] = useState([]);
   const [keyboardNames, setKeyboardNames] = useState([]);
   const [formData, setFormData] = useState(initialFormState);
   const [myBoards, setMyBoards]= useState([]);
   const [searchTerm, setSearchTerm]= useState([]);
+  const [canRedirect, setRedirect]= useState([]);
 
 
 
   useEffect(() => {
     fetchKeyboards();
     fetchKeyboardNames();
+    setRedirect(false)
   }, []);
+
+ 
 
   async function fetchKeyboards() {
     const user = await Auth.currentAuthenticatedUser()
@@ -47,7 +52,6 @@ function App() {
       return keyboard;
     }))
     let keyboardData = apiData.data.listKeyboards.items
-    console.log(searchTerm)
     if(searchTerm.length)(
       keyboardData=dynamicFilter(keyboardData)
     )
@@ -61,6 +65,20 @@ function App() {
       setKeyboardNames(names)
     }
 
+    async function fetchKeyboardById(id){
+      console.log("broke?")
+      const keyboardFromAPI = await API.graphql({query:getKeyboard, variables:{id:id}})
+      console.log(keyboardFromAPI)
+      const keyboard = keyboardFromAPI.data.getKeyboard
+      console.log(keyboard)
+      if(keyboard.image){
+        keyboard.image = await Storage.get(keyboard.image)
+        
+      }
+      
+      setKeyboard(keyboard)
+    
+    }
   
 
   async function createKeyboard() {
@@ -71,7 +89,7 @@ function App() {
 
     formData.user = user.username;
     await API.graphql({ query: createKeyboardMutation, variables: { input: formData } });
-    
+    console.log(formData)
 
     if (formData.image) {
       const image = await Storage.get(formData.image);
@@ -79,6 +97,7 @@ function App() {
     }
     setKeyboards([ ...keyboards, formData ]);
     setFormData(initialFormState);
+    setRedirect(true)
   }
 
   async function deleteKeyboard({ id }) {
@@ -111,6 +130,7 @@ function App() {
   }
 
 
+
   const classes = useStyles();
 
   return (
@@ -125,15 +145,22 @@ function App() {
           <Switch>
             
             <Route exact path="/profile">
-              <Profile myBoards={myBoards} deleteKeyboard={deleteKeyboard}/>
+              <Profile myBoards={myBoards} deleteKeyboard={deleteKeyboard} />
             </Route>
-            <Route exact path="/buy" >
-            <ListItems fetchKeyboards={fetchKeyboards} keyboards={keyboards} setKeyboards={setKeyboards} listKeyboards={listKeyboards}/>     
+
+            
+           
+             <Route exact path="/buy" >
+            <ListItems fetchKeyboards={fetchKeyboards} keyboards={keyboards} setKeyboards={setKeyboards} listKeyboards={listKeyboards}  canRedirect={canRedirect} />     
+            </Route>
+            <Route path="/detail/:id" >
+            <ItemDetail keyboard={keyboard} fetchKeyboardById={fetchKeyboardById}/>
             </Route>
             
             <Route exact path="/sell" >
-            <PostKeyboardForm setFormData={setFormData} onChange={onChange} createKeyboard={createKeyboard} formData={formData}/>
+            <PostKeyboardForm setFormData={setFormData} onChange={onChange}  createKeyboard={createKeyboard} formData={formData} canRedirect={canRedirect}/>
             </Route>
+            
             <Redirect exact from= "/" to="/profile"/>
             
             
