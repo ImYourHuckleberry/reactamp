@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Card } from '@material-ui/core';
 import {useStyles} from './styles'
-import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 export function ListItems(props){
 
     const{keyboards, canRedirect }=props
@@ -24,9 +24,11 @@ export function ListItems(props){
                 {
                   keyboard.image && <img src={keyboard.image} style={{width: 400}} />
                 }
-                {canRedirect===true?<Redirect to={`/detail/${keyboard.id}`}/>:null}
               </div>
-              {/* <Button color="primary" variant="contained" onClick={() => <a href = {'/detail/${}'}>}>Buy</Button> */}
+              <Link to = {`/detail/${keyboard.id}`}>
+              <Button color="primary" variant="contained" >Buy</Button>
+              </Link>
+              
             </Card>
           ))
           }
