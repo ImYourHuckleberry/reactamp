@@ -13,25 +13,34 @@ export function ListItems(props){
     return(
     <div style={{marginBottom: 30}}>
         <h1>LIST OF AVAILABLE ITEMS</h1>
+    <div className="grid">
+          <ul className="list">
           {keyboards &&
           keyboards.map(keyboard => (
-            <Card raised>
+            <li className="list-item">
+            <Card raised className="card">
               <div key={keyboard.id || keyboard.name}>
+                <Link to = {`/detail/${keyboard.id}`}>
                 <div >Name: {keyboard.name}</div>
-                <p>Description {keyboard.description}</p>
+                </Link>
+                <p>Description: {keyboard.description}</p>
                 <p>Price: ${keyboard.cost}</p>
                 <p>Owner: {keyboard.user}</p>
                 {
                   keyboard.image && <img src={keyboard.image} style={{width: 400}} />
                 }
               </div>
-              <Link to = {`/detail/${keyboard.id}`}>
-              <Button color="primary" variant="contained" >Buy</Button>
-              </Link>
+              
+              
+              
               
             </Card>
+            </li>
           ))
           }
+          </ul>
+ </div>
+       
           
     </div>
 )}

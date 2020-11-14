@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { Card } from '@material-ui/core';
+import { Button, Card } from '@material-ui/core';
 import {
 
     useParams
@@ -37,7 +37,7 @@ export function ItemDetail(props) {
                 }
                 
               </div>
-              
+              <Button>PAYPAL HERE</Button>
             </Card>
 
       </div>

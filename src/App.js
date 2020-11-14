@@ -63,7 +63,7 @@ function App() {
       const apiData = await API.graphql({ query: listKeyboardNames });
       const names = apiData.data.listKeyboards.items;
       setKeyboardNames(names)
-    }
+    } 
 
     async function fetchKeyboardById(id){
       console.log("broke?")

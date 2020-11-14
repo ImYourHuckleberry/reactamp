@@ -12,5 +12,23 @@ name: String
 description: String
 cost: Int
 image: String
-user: String
+user: User
+}
+
+type Rating @model {
+id:ID!
+starRating: Int
+message: String
+recievingUser:User
+givingUser:User
+Keyboard:Keyboard
+}
+
+type User @model {
+id:ID!
+name:String
+ratingsGiven:[Rating]
+ratingsRecieved:[Rating]
+keyboardsSold:[Keyboard]
+keyboardsBought:[Keyboard]
 }
