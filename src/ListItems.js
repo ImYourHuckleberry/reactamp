@@ -25,7 +25,6 @@ export function ListItems(props){
                 </Link>
                 <p>Description: {keyboard.description}</p>
                 <p>Price: ${keyboard.cost}</p>
-                <p>Owner: {keyboard.user}</p>
                 {
                   keyboard.image && <img src={keyboard.image} style={{width: 400}} />
                 }

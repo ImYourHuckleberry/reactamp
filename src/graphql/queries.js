@@ -42,26 +42,7 @@ export const getKeyboard = /* GraphQL */ `
       description
       cost
       image
-      user {
-        id
-        name
-        ratingsGiven {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        ratingsRecieved {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
+      userId
       createdAt
       updatedAt
     }
@@ -80,12 +61,7 @@ export const listKeyboards = /* GraphQL */ `
         description
         cost
         image
-        user {
-          id
-          name
-          createdAt
-          updatedAt
-        }
+        userId
         createdAt
         updatedAt
       }
@@ -99,61 +75,9 @@ export const getRating = /* GraphQL */ `
       id
       starRating
       message
-      recievingUser {
-        id
-        name
-        ratingsGiven {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        ratingsRecieved {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
-      givingUser {
-        id
-        name
-        ratingsGiven {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        ratingsRecieved {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
-      Keyboard {
-        id
-        name
-        description
-        cost
-        image
-        user {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
+      recievingUserId
+      givingUserId
+      keyboardId
       createdAt
       updatedAt
     }
@@ -170,27 +94,9 @@ export const listRatings = /* GraphQL */ `
         id
         starRating
         message
-        recievingUser {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        givingUser {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        Keyboard {
-          id
-          name
-          description
-          cost
-          image
-          createdAt
-          updatedAt
-        }
+        recievingUserId
+        givingUserId
+        keyboardId
         createdAt
         updatedAt
       }
@@ -202,63 +108,13 @@ export const getUser = /* GraphQL */ `
   query GetUser($id: ID!) {
     getUser(id: $id) {
       id
+      email
       name
-      ratingsGiven {
-        id
-        starRating
-        message
-        recievingUser {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        givingUser {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        Keyboard {
-          id
-          name
-          description
-          cost
-          image
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
-      ratingsRecieved {
-        id
-        starRating
-        message
-        recievingUser {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        givingUser {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        Keyboard {
-          id
-          name
-          description
-          cost
-          image
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
+      ratingsGiven
+      ratingsRecieved
+      keyboardsSold
+      keyboardsBought
+      image
       createdAt
       updatedAt
     }
@@ -273,21 +129,13 @@ export const listUsers = /* GraphQL */ `
     listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        email
         name
-        ratingsGiven {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        ratingsRecieved {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
+        ratingsGiven
+        ratingsRecieved
+        keyboardsSold
+        keyboardsBought
+        image
         createdAt
         updatedAt
       }

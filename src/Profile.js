@@ -1,6 +1,8 @@
 import { Button, Card } from '@material-ui/core';
 export function Profile(props){
-    const {myBoards, deleteKeyboard} = props
+    const {keyboards, user, deleteKeyboard} = props
+    console.log(user)
+    const myBoards = keyboards.filter(keyboard=>keyboard.userId === user.id)
     return(<div style={{marginBottom: 30}}>
         <h1>PROFILE</h1>
         {
@@ -11,7 +13,6 @@ export function Profile(props){
         <h2>Name: {keyboard.name}</h2>
         <p>Description {keyboard.description}</p>
         <p>Price: ${keyboard.cost}</p>
-        <p>Owner: {keyboard.user}</p>
         {
           keyboard.image && <img src={keyboard.image} style={{width: 400}} />
         }

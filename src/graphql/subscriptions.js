@@ -48,26 +48,7 @@ export const onCreateKeyboard = /* GraphQL */ `
       description
       cost
       image
-      user {
-        id
-        name
-        ratingsGiven {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        ratingsRecieved {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
+      userId
       createdAt
       updatedAt
     }
@@ -81,26 +62,7 @@ export const onUpdateKeyboard = /* GraphQL */ `
       description
       cost
       image
-      user {
-        id
-        name
-        ratingsGiven {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        ratingsRecieved {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
+      userId
       createdAt
       updatedAt
     }
@@ -114,26 +76,7 @@ export const onDeleteKeyboard = /* GraphQL */ `
       description
       cost
       image
-      user {
-        id
-        name
-        ratingsGiven {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        ratingsRecieved {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
+      userId
       createdAt
       updatedAt
     }
@@ -145,61 +88,9 @@ export const onCreateRating = /* GraphQL */ `
       id
       starRating
       message
-      recievingUser {
-        id
-        name
-        ratingsGiven {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        ratingsRecieved {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
-      givingUser {
-        id
-        name
-        ratingsGiven {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        ratingsRecieved {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
-      Keyboard {
-        id
-        name
-        description
-        cost
-        image
-        user {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
+      recievingUserId
+      givingUserId
+      keyboardId
       createdAt
       updatedAt
     }
@@ -211,61 +102,9 @@ export const onUpdateRating = /* GraphQL */ `
       id
       starRating
       message
-      recievingUser {
-        id
-        name
-        ratingsGiven {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        ratingsRecieved {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
-      givingUser {
-        id
-        name
-        ratingsGiven {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        ratingsRecieved {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
-      Keyboard {
-        id
-        name
-        description
-        cost
-        image
-        user {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
+      recievingUserId
+      givingUserId
+      keyboardId
       createdAt
       updatedAt
     }
@@ -277,61 +116,9 @@ export const onDeleteRating = /* GraphQL */ `
       id
       starRating
       message
-      recievingUser {
-        id
-        name
-        ratingsGiven {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        ratingsRecieved {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
-      givingUser {
-        id
-        name
-        ratingsGiven {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        ratingsRecieved {
-          id
-          starRating
-          message
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
-      Keyboard {
-        id
-        name
-        description
-        cost
-        image
-        user {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
+      recievingUserId
+      givingUserId
+      keyboardId
       createdAt
       updatedAt
     }
@@ -341,63 +128,13 @@ export const onCreateUser = /* GraphQL */ `
   subscription OnCreateUser {
     onCreateUser {
       id
+      email
       name
-      ratingsGiven {
-        id
-        starRating
-        message
-        recievingUser {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        givingUser {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        Keyboard {
-          id
-          name
-          description
-          cost
-          image
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
-      ratingsRecieved {
-        id
-        starRating
-        message
-        recievingUser {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        givingUser {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        Keyboard {
-          id
-          name
-          description
-          cost
-          image
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
+      ratingsGiven
+      ratingsRecieved
+      keyboardsSold
+      keyboardsBought
+      image
       createdAt
       updatedAt
     }
@@ -407,63 +144,13 @@ export const onUpdateUser = /* GraphQL */ `
   subscription OnUpdateUser {
     onUpdateUser {
       id
+      email
       name
-      ratingsGiven {
-        id
-        starRating
-        message
-        recievingUser {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        givingUser {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        Keyboard {
-          id
-          name
-          description
-          cost
-          image
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
-      ratingsRecieved {
-        id
-        starRating
-        message
-        recievingUser {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        givingUser {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        Keyboard {
-          id
-          name
-          description
-          cost
-          image
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
+      ratingsGiven
+      ratingsRecieved
+      keyboardsSold
+      keyboardsBought
+      image
       createdAt
       updatedAt
     }
@@ -473,63 +160,13 @@ export const onDeleteUser = /* GraphQL */ `
   subscription OnDeleteUser {
     onDeleteUser {
       id
+      email
       name
-      ratingsGiven {
-        id
-        starRating
-        message
-        recievingUser {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        givingUser {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        Keyboard {
-          id
-          name
-          description
-          cost
-          image
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
-      ratingsRecieved {
-        id
-        starRating
-        message
-        recievingUser {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        givingUser {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        Keyboard {
-          id
-          name
-          description
-          cost
-          image
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
+      ratingsGiven
+      ratingsRecieved
+      keyboardsSold
+      keyboardsBought
+      image
       createdAt
       updatedAt
     }

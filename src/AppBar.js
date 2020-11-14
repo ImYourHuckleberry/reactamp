@@ -27,7 +27,6 @@ export function CustomAppBar(props) {
 
     function _handleKeyDown(e) {
       if (e.key === 'Enter') {
-        console.log('do validate');
         setRedirect(true)
       }
     }
