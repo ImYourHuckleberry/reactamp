@@ -22,7 +22,7 @@ import { KeyboardSharp } from '@material-ui/icons';
 
 function App() {
   const initialFormState = { name: '', description: '', userId:'' }
-  const initialReviewState = { starRating: '', message: '' }
+  const initialReviewState = { starRating: 0, message: '' }
   const [keyboards, setKeyboards] = useState([]);
   const [keyboard, setKeyboard] = useState([]);
   const [formData, setFormData] = useState(initialFormState);
@@ -140,29 +140,30 @@ function App() {
     reviewData.keyboardId = keyboardId
     reviewData.givingUserId = user.id
 
-
+    console.log(reviewData)
     const item = await API.graphql({ query: createRatingMutation, variables: { input: reviewData } });
  
     const reviewingUser = await fetchUserById(user.id)
     const sellingUser = await fetchUserById(userId)
     console.log(reviewingUser)
     console.log(sellingUser)
-    const ratingsGiven = reviewingUser.ratingsGiven ? [...reviewingUser.ratingsGiven, item.data.createdating.id] : [item.data.createRating.id]
+    const ratingsGiven = reviewingUser.ratingsGiven ? [...reviewingUser.ratingsGiven, item.data.createRating.id] : [item.data.createRating.id]
     const ratingsRecieved = sellingUser.ratingsRecieved ? [...sellingUser.ratingsRecieved, item.data.createRating.id] :[item.data.createRating.id]
+
     const reviewerUpdate = {
       id: reviewingUser.id,
       ratingsGiven:ratingsGiven
     }
-const seller = {
-  id:sellingUser.id,
-  ratingsRecieved:ratingsRecieved
-}
-    
+    const seller = {
+      id:sellingUser.id,
+      ratingsRecieved:ratingsRecieved
+    }
+        
     console.log(sellingUser)
     await API.graphql({ query: updateUserMutation, variables: { input: reviewerUpdate } });
     await API.graphql({ query: updateUserMutation, variables: { input: seller } });
   
-    setReviewData(formData)
+    setReviewData(reviewData)
     setFormData(initialReviewState);
 
   }
