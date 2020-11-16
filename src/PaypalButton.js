@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import scriptLoader from "react-async-script-loader";
 
  const CLIENT = {
-   
+
  };
 
  const CLIENT_ID =
