@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { API, Storage, Auth } from 'aws-amplify';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
-import { listKeyboards, getKeyboard, getUser, listUsers } from './graphql/queries';
+import { listKeyboards, getKeyboard, getUser, listUsers, listRatings } from './graphql/queries';
 import { createKeyboard as createKeyboardMutation, createUser as createUserMutation, deleteKeyboard as deleteKeyboardMutation, createRating as createRatingMutation, updateUser as updateUserMutation, updateUser } from './graphql/mutations';
 import {CustomAppBar} from './AppBar';
 import { useStyles} from './styles';
@@ -10,6 +10,7 @@ import {PostKeyboardForm} from './PostKeyboardForm'
 import {ListItems} from './ListItems';
 import {ItemDetail} from './ItemDetail';
 import {Profile} from "./Profile";
+import banner from './assets/banner.jpg'
 import {
   BrowserRouter as Router,
   Switch,
@@ -24,6 +25,7 @@ function App() {
   const initialFormState = { name: '', description: '', userId:'' }
   const initialReviewState = { starRating: 0, message: '' }
   const [keyboards, setKeyboards] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const [keyboard, setKeyboard] = useState([]);
   const [formData, setFormData] = useState(initialFormState);
   const [reviewData, setReviewData] = useState(initialReviewState);
@@ -37,6 +39,7 @@ function App() {
   useEffect(() => {
     fetchUsers();
     fetchKeyboards();
+    fetchReviews();
     setRedirect(false)
   }, []);
 
@@ -59,6 +62,12 @@ function App() {
 
     
     setKeyboards(keyboardData);
+  }
+
+  async function fetchReviews() {
+    const apiData = await API.graphql({ query: listRatings });
+    let reviewData = apiData.data.listRatings.items
+    setReviews(reviewData);
   }
 
   async function fetchUsers() {
@@ -103,6 +112,7 @@ function App() {
       }
       
       setKeyboard(keyboard)
+      return keyboard
     
     }
   
@@ -205,7 +215,10 @@ function App() {
     <div className="App">
       
       <div className={classes.root}>
-        <CustomAppBar  editSearch={editSearch}/>
+        <div className="banner">
+          <img className="bannerImage"src={banner}/>
+        </div>
+        <CustomAppBar className='appBar' editSearch={editSearch}/>
       </div> 
       <div>
         
@@ -221,7 +234,7 @@ function App() {
             <ListItems fetchKeyboards={fetchKeyboards} keyboards={keyboards} setKeyboards={setKeyboards} listKeyboards={listKeyboards}  canRedirect={canRedirect} />     
             </Route>
             <Route path="/detail/:id" >
-            <ItemDetail keyboard={keyboard} curentUser={user.id} fetchKeyboardById={fetchKeyboardById} fetchUserById={fetchUserById} createReview={createReview} setReviewData={setReviewData} reviewData={reviewData}/>
+            <ItemDetail reviews={reviews} keyboard={keyboard} curentUser={user.id} fetchKeyboardById={fetchKeyboardById} fetchUserById={fetchUserById} createReview={createReview} setReviewData={setReviewData} reviewData={reviewData}/>
             </Route>
             
             <Route exact path="/sell" >

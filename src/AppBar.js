@@ -9,6 +9,7 @@ import {NavMenu} from './NavMenu'
 import { Redirect } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 
+
 export function CustomAppBar(props) {
     const classes = useStyles();
     const {editSearch} = props
@@ -33,10 +34,10 @@ export function CustomAppBar(props) {
 
     return (
       
-<div>
+<div >
   {redirect===true && <Redirect to="/buy"/>}
-        <AppBar position="static">
-        <Toolbar>
+        <AppBar position="static" >
+        <Toolbar >
           <IconButton
             edge="start"
             className={classes.menuButton}
@@ -46,7 +47,7 @@ export function CustomAppBar(props) {
             <NavMenu />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-          <h1>My Keyboards App</h1>
+          
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>

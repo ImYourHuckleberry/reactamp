@@ -5,7 +5,7 @@ import StarBorderIcon from '@material-ui/icons/StarBorder';
 import { StarBorderOutlined } from '@material-ui/icons';
 import StarIcon from '@material-ui/icons/Star';
 export function CommentForm(props){
-    const {onChange,setReviewData,reviewData,createReview,userId, keyboardId, currentUser} = props
+    const {onChange,setReviewData,reviewData,createReview,userId, keyboardId, currentUser, reviews} = props
   
   const [rating, setRating] = useState([])
   

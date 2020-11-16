@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export function ListItems(props){
 
     const{keyboards, canRedirect }=props
-    const classes = useStyles();
+    // const classes = useStyles();
 
     
 
@@ -17,24 +17,25 @@ export function ListItems(props){
           <ul className="list">
           {keyboards &&
           keyboards.map(keyboard => (
-            <li className="list-item">
-            <Card raised className="card">
-              <div key={keyboard.id || keyboard.name}>
-                <Link to = {`/detail/${keyboard.id}`}>
-                <div >Name: {keyboard.name}</div>
-                </Link>
-                <p>Description: {keyboard.description}</p>
-                <p>Price: ${keyboard.cost}</p>
+            <ul className="list-item">
+            <div raised className="card">
+              <div key={keyboard.id || keyboard.name} className='itemCard'>
+                
+                <h1 >Name: {keyboard.name}</h1>
+                
+                <h2>Description: {keyboard.description}</h2>
+                <h3>Price: ${keyboard.cost}</h3>
                 {
-                  keyboard.image && <img src={keyboard.image} style={{width: 400}} />
+                  keyboard.image && <img src={keyboard.image} style={{width: 400}} className="image"/>
                 }
+                <Link to = {`/detail/${keyboard.id}`}>
+                <div className="itemDetailButton"><Button color="primary" variant="contained">Buy</Button></div>
+                </Link>
               </div>
               
-              
-              
-              
-            </Card>
-            </li>
+            </div>
+            
+            </ul>
           ))
           }
           </ul>
