@@ -3,7 +3,10 @@ import ReactDOM from "react-dom";
 import scriptLoader from "react-async-script-loader";
 
  const CLIENT = {
-
+   sandbox:
+     "AWeuDmR1wImKS-idPYnOq3ZBLn5ThCcP75pX8JQqk4J2gJ0UGFKs0uFD4dsdz8BZQEJI1PszZQQ780jo",
+   production:
+     "AWeuDmR1wImKS-idPYnOq3ZBLn5ThCcP75pX8JQqk4J2gJ0UGFKs0uFD4dsdz8BZQEJI1PszZQQ780jo"
  };
 
  const CLIENT_ID =
@@ -84,7 +87,6 @@ class PaypalButton extends React.Component {
         {showButtons && (
           <div>
             <div>
-              <h2>{name}</h2>
               <h2>Total checkout Amount ${cost}</h2>
             </div>
 
@@ -98,7 +100,7 @@ class PaypalButton extends React.Component {
         {paid && (
           <div className="main">
             <h2>
-              You Got Yo Self a Keeb, Baby!!{" "}
+              You Got Yo Self a {name}, Baby!!{" "}
               <span role="img" aria-label="emoji">
                 {" "}
             

@@ -97,3 +97,26 @@
   max-height: 75%;
   margin-bottom:32px;
 }
+
+.itemDetail{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin:16px;
+  
+}
+
+.review{
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  width: 50%;
+  margin: auto;
+}
+
+.stars{
+  margin:20px;
+}
+.comment{
+  margin:20px
+}

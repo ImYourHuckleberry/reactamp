@@ -24,7 +24,7 @@ export function NavMenu() {
 
   return (
     <div>
-      <Button aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}>
+      <Button variant="outlined" size="large" aria-controls="fade-menu" aria-haspopup="true" style={{background:"#408DD1"}}onClick={handleClick}>
        <MenuIcon/>
       </Button>
       <Menu

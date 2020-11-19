@@ -47,28 +47,29 @@ export function ItemDetail(props) {
       
     <div>
    
-    <Card raised>
-              <div key={keyboard.id || keyboard.name}>
-                <div >Name: {keyboard.name}</div>
-                <p>Description {keyboard.description}</p>
-                <p>Seller: {user.name}</p>
-                {
+    <Card raised style={{margin:'8px'}}>
+              <div key={keyboard.id || keyboard.name} className="itemDetail"> 
+              <div>
+              {
                  keyboard.image && <img src={keyboard.image} style={{width: 400}} />
-                }
+                }</div>
+                <div>
+                <h1 >{keyboard.name}</h1>
+                <h2>Description: {keyboard.description}</h2>
+                <h3>Seller: {user.name}</h3>
+               </div>
                 
                 
               </div>
               <PaypalButton name={keyboard.name} cost={keyboard.cost}></PaypalButton>
             </Card>
-            <Card>
+            <Card style={{margin:'8px'}}>
               <div>
-                Rate Seller
-                <CommentForm reviews={reviews} createReview={createReview} setReviewData={setReviewData} reviewData={reviewData} currentUser={currentUser} userId={user.id} keyboardId={keyboard.id}/>
+                <CommentForm reviews={reviews} createReview={createReview} setReviewData={setReviewData} reviewData={reviewData} currentUser={currentUser} userId={user.id} keyboardId={keyboard.id} fetchReviews={fetchReviews}/>
               </div>
             </Card>
-            <Card>
-              <div>
-                Reviews
+            <Card style={{margin:'8px'}}>
+              <div> 
                {user.id && reviews && <UserReviews reviews={reviews} userId={user.id} />}
               </div> 
             </Card>

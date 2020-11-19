@@ -25,7 +25,7 @@ export function UserReviews(props){
       return starArray
     }
     
-   
+   const starSortedReviews = reviews.sort((a,b)=>b.starRating - a.starRating)
     
 
 console.log(reviews)
@@ -34,7 +34,7 @@ console.log(reviews)
         <h1>Seller Reviews</h1>
         {
         reviews.map(review => (
-        <Card raised>
+        <Card raised style={{margin:'4px'}}>
         
           <div>
           <p>rating {getStars(review.starRating)}</p>

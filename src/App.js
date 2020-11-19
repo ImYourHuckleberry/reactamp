@@ -155,8 +155,6 @@ function App() {
  
     const reviewingUser = await fetchUserById(user.id)
     const sellingUser = await fetchUserById(userId)
-    console.log(reviewingUser)
-    console.log(sellingUser)
     const ratingsGiven = reviewingUser.ratingsGiven ? [...reviewingUser.ratingsGiven, item.data.createRating.id] : [item.data.createRating.id]
     const ratingsRecieved = sellingUser.ratingsRecieved ? [...sellingUser.ratingsRecieved, item.data.createRating.id] :[item.data.createRating.id]
 
@@ -172,9 +170,10 @@ function App() {
     console.log(sellingUser)
     await API.graphql({ query: updateUserMutation, variables: { input: reviewerUpdate } });
     await API.graphql({ query: updateUserMutation, variables: { input: seller } });
+
+    setReviews(...reviews,  )
+    setReviewData(initialReviewState);
   
-    setReviewData(reviewData)
-    setFormData(initialReviewState);
 
   }
 

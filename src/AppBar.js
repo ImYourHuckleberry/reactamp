@@ -36,7 +36,7 @@ export function CustomAppBar(props) {
       
 <div >
   {redirect===true && <Redirect to="/buy"/>}
-        <AppBar position="static" >
+        <AppBar position="static" style={{ background: '#3A9AFF' }}>
         <Toolbar >
           <IconButton
             edge="start"
